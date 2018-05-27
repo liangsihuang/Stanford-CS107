@@ -13,6 +13,11 @@ int  | 4 bytes |
 long  | 4 bytes |
 float  | 4 bytes |
 double  | 8 bytes |
+### pointer
+`pointer 4 bytes` has 4GB addressable range.There is actually very little
+distinction between a pointer and a 4 byte unsigned integer. They both just
+store integers— the difference is in whether the number is interpreted as a
+number or as an address.
 ### char
 The ASCII code difines 128 characters and a mapping of those characters onto the numbers 0-127.  
 所以bit pattern的头一个必然是0. （剩下的127-255怎么利用，不同计算机的处理不同）
@@ -83,7 +88,7 @@ arr[3]=128;
 cout<<arr[3]<<endl; // 不是128了, arr[3]前半部分（2个bytes）的bit pattern被改成了2
 
 struct student{
-    char * name; // char pointer 有多少 bytes???
+    char * name; // char pointer 有多少 bytes??? 4
     char suid[8];
     int numUnits;
     };
@@ -105,6 +110,7 @@ swap(&x, &y);
 如何对所有类型都通用？ 在C++里面可以用template实现，在C里面怎么做？？
 ## Lec4
 ### Continue to write generic function in C
+`very powerful very dangerous`
 ```c
 void swap(void * vp1, void * vp2, int size) //generic pointer
 {
@@ -130,5 +136,5 @@ char * husband = strdup("Fred");
 char * wife = strdup("Wilma");
 swap(&husband, &wife, sizeof(char *)); //正确做法。char * 到底多少 bytes??
 swap(husband, wife, sizeof(char *)); //错误做法。一样能编译
-//变成husband指向 Wilm\0 , wife指向 Freda\0。 为什么swap 4 bytes figure?? 
+//变成husband指向 Wilm\0 , wife指向 Freda\0。 swap 4 bytes figure!
 ```
