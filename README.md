@@ -106,4 +106,29 @@ swap(&x, &y);
 ## Lec4
 ### Continue to write generic function in C
 ```c
-void
+void swap(void * vp1, void * vp2, int size) //generic pointer
+{
+    char buffer[size]; // 用char来计算byte，直接操作memory
+    memcpy(buffer, vp1, size);
+    memcpy(vp1, vp2, size);
+    memcpy(vp2, buffer, size);
+}
+int x=17, y=37;
+swap(&x, &y, sizeof(int));
+```
+C++的template: 每针对一种类型，都会复制一次代码。有什么副作用？？？
+generic优势:更节约？
+坏处：wrong call 一样 complie，得到错误的结果。特别是对于比swap更复杂的函数
+```c
+int i=44;
+short s=5;
+swap(&i, &s, sizeof(short)); //编译出错误的结果 sizeof(int) even worse
+```
+当要交换指针时，更加疑惑：要传入什么参数?非常烧脑！
+```c
+char * husband = strdup("Fred");
+char * wife = strdup("Wilma");
+swap(&husband, &wife, sizeof(char *)); //正确做法。char * 到底多少 bytes??
+swap(husband, wife, sizeof(char *)); //错误做法。一样能编译
+//变成husband指向 Wilm\0 , wife指向 Freda\0。 为什么swap 4 bytes figure?? 
+```
