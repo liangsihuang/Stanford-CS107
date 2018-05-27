@@ -81,4 +81,29 @@ int arr[5];
 arr[3]=128;
 ((short*)arr)[6]=2;
 cout<<arr[3]<<endl; // 不是128了, arr[3]前半部分（2个bytes）的bit pattern被改成了2
+
+struct student{
+    char * name; // char pointer 有多少 bytes???
+    char suid[8];
+    int numUnits;
+    };
+student pupils[4];
+pupils[2].name=strdup("Adam"); //string duplication, 在heap里动态分配内存 string "Adam\0"
 ```
+### Write generic function in C
+```c
+void swap(int *ap, int *bp)
+{
+    int temp=*ap;
+    *ap=*bp;
+    *bp=temp;
+};
+int x=7;
+int y=117;
+swap(&x, &y);
+```
+如何对所有类型都通用？ 在C++里面可以用template实现，在C里面怎么做？？
+## Lec4
+### Continue to write generic function in C
+```c
+void
