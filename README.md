@@ -24,11 +24,26 @@ The ASCII code difines 128 characters and a mapping of those characters onto the
 实际应用：不能仅仅改变头一个bit来得到负数的bit pattern，原因：  
 `because we want addition and subtraction to actually follow very simple rules`  
 比如：short型的数字7+(-7)应该等于0  
-//0000,0000 0000,0111  
-+ 1000,0000 0000,0111  
-= 1000,0000 0000,1110（不是0）  
+    //0000,0000 0000,0111  
+    + 1000,0000 0000,0111  
+    = 1000,0000 0000,1110（不是0）  
 实际表示：15+(-15)=0（domino效应，多出来的1被丢掉）  
-//0000,0000 0000,1111 （15）   
-+ 1111,1111 1111,0001  （-15是这样表示的，不仅头一个bit变为1，其他bit全部反转，再加1）  
-= 0000,0000 0000,0000  
+    //0000,0000 0000,1111 （15）   
+    + 1111,1111 1111,0001  （-15是这样表示的，不仅头一个bit变为1，其他bit全部反转，再加1）  
+    = 0000,0000 0000,0000  
+### cast
+```cpp
+char ch='A';
+short s=ch;
+cout<<s<<endl; //Print out: 65
+```
+1 byte to 2 bytes: copy the bit pattern, extra space set to all 0s.  
+(hidden check: first bit is 0, positive number)
+```cpp
+short s=67;
+char ch=s;
+cout<<ch<<endl; //Print out: C
+```
+2 byte to 1 bytes: only copy the lower bit pattern(0100,0011), no room for higher bit pattern(0000,0000)
+
 ## Lec3
