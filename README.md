@@ -59,4 +59,26 @@ int i = s; //bit pattern: 1111,1111 1111,1111 1111,1111 1111,1111
     * 23个bit：.xxxxxx ， 2^(-1)+2^(-2)+...2^(-23)
 * 表示的数字：
     * (-1)^s乘1.xxxxx乘2^(exp-127), 2的指数范围-127~128
+```cpp
+int i = 5; //bit pattern: 0000,0000 0000,0000 0000,0000 0000,0101
+float f=i;
+cout<<f<<end; //print out: 5.0
+//暗地里，计算机做了一次转换：转换成float的bit pattern: 1.25*2^（2）,exp=129,.xxxx=0.25
+
+int i = 37;
+float f=*(float *)&i; //没有做转换，所以f不是37.0
+```
+
 ## Lec3
+### brute force reinterpertation of the address
+```cpp
+short s=45;
+double d = *(double*)&s;
+```
+### struct and array
+```cpp
+int arr[5];
+arr[3]=128;
+((short*)arr)[6]=2;
+cout<<arr[3]<<endl; // 不是128了, arr[3]前半部分（2个bytes）的bit pattern被改成了2
+```
