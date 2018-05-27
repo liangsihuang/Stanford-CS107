@@ -44,6 +44,12 @@ short s=67;
 char ch=s;
 cout<<ch<<endl; //Print out: C
 ```
-2 byte to 1 bytes: only copy the lower bit pattern(0100,0011), no room for higher bit pattern(0000,0000)
-
+2 byte to 1 bytes: only copy the lower bit pattern(0100,0011), no room for higher bit pattern(0000,0000)  
+类似的（int to short）: 会丢失高位的bit pattern，表示另一个数！
+```cpp
+short s = -1; //bit pattern: 1111,1111 1111,1111
+int i = s; //bit pattern: 1111,1111 1111,1111 1111,1111 1111,1111
+// sign extend! 延申1到头bit，这样才有domino效应，才能保留符号
+```
+### float
 ## Lec3
