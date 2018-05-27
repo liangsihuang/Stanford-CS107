@@ -134,7 +134,18 @@ swap(&i, &s, sizeof(short)); //编译出错误的结果 sizeof(int) even worse
 ```c
 char * husband = strdup("Fred");
 char * wife = strdup("Wilma");
-swap(&husband, &wife, sizeof(char *)); //正确做法。char * 到底多少 bytes??
+swap(&husband, &wife, sizeof(char *)); //正确做法。
 swap(husband, wife, sizeof(char *)); //错误做法。一样能编译
 //变成husband指向 Wilm\0 , wife指向 Freda\0。 swap 4 bytes figure!
 ```
+example : linear search
+```
+int lsearch(int key, int array[], int size)
+{
+    for(int i=0; i<size; i++){
+        if (array[i]==key){
+            return i;
+        }
+    }
+    return -1;
+}
