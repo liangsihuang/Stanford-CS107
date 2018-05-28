@@ -211,7 +211,34 @@ int StrCmp(void * vp1, void * vp2)
     return strcmp(s1,s2); 
 }
 ```
-学到大概33：00转向类的method? this?
+function pointer是什么？？学到大概33：00时，讲到了member function(method), free function的区别, 没听懂！！！
+
+从generic algorithm 到 generic data structure  
+stack.h
+```c
+typedef struct{
+    int *elems;
+    int logicallen;
+    int alloclength;
+} stack;
+void StackNew(stack *s);
+void StackDispose(stack *s);
+void StackPush(stack *s, int value);
+int StackPop(stack *s);
+```
+implement
+```c
+void StackNew(stack *s)
+{
+    s->logicallen=0;
+    s->alloclen=4;
+    s->elems=malloc(4*sizeof(int)); //C function: 在heap里面找到16 bytes的block，返回地址
+    assert(s->elems!=Null); //C function: 没有找到内存就中止！
+}
+```
+
+
+
 
 
 
