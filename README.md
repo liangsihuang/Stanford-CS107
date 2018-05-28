@@ -149,3 +149,24 @@ int lsearch(int key, int array[], int size)
     }
     return -1;
 }
+```
+generic version 1
+```c
+void *lsearch(void *key, void *base, int n, int elemSize)
+{
+    for(int i=0; i<n; i++){
+        void *elemAddr = (char *)base + i*elemSize;
+        if (memcmp(key, elemAddr, elemSize)==0) return elemAddr; //只能比较原始的类型，不能比较里面存储的是地址的指针类型
+    }
+    return Null;
+}
+```
+## Lec5
+generic version 2
+```
+void *lsearch(void *key, void *base, int n, int elemSize, int (* cmpfn)(void *, void *))
+
+
+
+
+
