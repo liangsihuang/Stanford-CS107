@@ -15,8 +15,9 @@ float  | 4 bytes |
 double  | 8 bytes |
 pointer | 4 bytes |
 ### pointer
-`pointer of 4 bytes` has 4GB addressable range.There is actually very little distinction between a pointer and a 4 byte unsigned integer. They both just store integers— the difference is in whether the number is interpreted as a number or as an address.
+`pointer of 4 bytes` has 4GB addressable range. There is actually very little distinction between a pointer and a 4 byte unsigned integer. They both just store integers— the difference is in whether the number is interpreted as a number or as an address.  
 `dereference a pointer` see in [wikipedia](https://en.wikipedia.org/wiki/Dereference_operator)
+__dereference简单来说，就是根据reference取得资源__
 ### char
 The ASCII code difines 128 characters and a mapping of those characters onto the numbers 0-127.  
 所以bit pattern的头一个必然是0. （剩下的127-255怎么利用，不同计算机的处理不同）
@@ -190,14 +191,27 @@ example: c-string domain
 ```c
 char * notes[]={"Ab", "F#", "B", "Gb", "D"};
 char * favoriteNote = "Eb";
-char ** found = lsearch(&favoriteNote, notes, 5, sizeof(char *), StrCmp); // 两个**是因为array本身存储的是指针
+char ** found = lsearch(&favoriteNote, notes, 5, sizeof(char *), StrCmp); // 两个**是因为array本身存储的是指针??
 int StrCmp(void * vp1, void * vp2)
 {
-    char *s1 = * (char **) vp1; // char ** 是和favoriteNote前面的&配套，和下一行的代码对称
+    char *s1 = * (char **) vp1; // *(char **) 是和favoriteNote前面的&配套，和下一行的代码对称
+    //
+    //问题：为什么不直接 char *vp1？ dereference不是可以抵消一个*吗？？
+    //我的见解：char ** 和char *效果上完全相同（指针都是4 bytes）。但给人的理解不同。
+    //dereference一定要，因为strcmp要求传入C-string的指针，对应于 &favoriteNote的reference
     char *s2 = * (char **) vp2;
     return strcmp(s1,s2); //C原生函数：比较C-string
 }
+//也可以写成不对称的形式：
+char ** found = lsearch(favoriteNote, notes, 5, sizeof(char *), StrCmp); 
+int StrCmp(void * vp1, void * vp2)
+{
+    char *s1 = (char *) vp1; //不用dereference
+    char *s2 = * (char **) vp2;
+    return strcmp(s1,s2); 
+}
 ```
+
 
 
 
