@@ -13,11 +13,10 @@ int  | 4 bytes |
 long  | 4 bytes |
 float  | 4 bytes |
 double  | 8 bytes |
+pointer | 4 bytes |
 ### pointer
-`pointer 4 bytes` has 4GB addressable range.There is actually very little
-distinction between a pointer and a 4 byte unsigned integer. They both just
-store integers— the difference is in whether the number is interpreted as a
-number or as an address.
+`pointer of 4 bytes` has 4GB addressable range.There is actually very little distinction between a pointer and a 4 byte unsigned integer. They both just store integers— the difference is in whether the number is interpreted as a number or as an address.
+`dereference a pointer` see in [wikipedia](https://en.wikipedia.org/wiki/Dereference_operator)
 ### char
 The ASCII code difines 128 characters and a mapping of those characters onto the numbers 0-127.  
 所以bit pattern的头一个必然是0. （剩下的127-255怎么利用，不同计算机的处理不同）
@@ -163,8 +162,44 @@ void *lsearch(void *key, void *base, int n, int elemSize)
 ```
 ## Lec5
 generic version 2
+```c
+void *lsearch(void *key, void *base, int n, int elemSize, int (* cmpfn)(void *, void *)) //cmpfn前面的*可以没有？
+{
+    for(int i=0; i<n; i++){
+        void *elemAddr = (char *)base +i*elemSize;
+        if (cmpfn(key, elemAddr) == 0) return elemAddr;
+    }
+    return Null;
+}
 ```
-void *lsearch(void *key, void *base, int n, int elemSize, int (* cmpfn)(void *, void *))
+example: int domain
+```c
+int array[] = {4,2,3,7,11,6};
+int size=6;
+int number=7; 
+int *found = lsearch(&number, array, 6, sizeof(int), intCmp); //&number为指向number的指针，因为intCmp传入的参数是指针
+//found==Null 说明没找到
+int intCmp(void * elem1, void * elem2)
+{
+    int * ip1 = elem1;
+    int * ip2 = elem2;
+    return *ip1-*ip2; // 相等即返回0
+}
+```
+example: c-string domain
+```c
+char * notes[]={"Ab", "F#", "B", "Gb", "D"};
+char * favoriteNote = "Eb";
+char ** found = lsearch(&favoriteNote, notes, 5, sizeof(char *), StrCmp); // 两个**是因为array本身存储的是指针
+int StrCmp(void * vp1, void * vp2)
+{
+    char *s1 = * (char **) vp1; // char ** 是和favoriteNote前面的&配套，和下一行的代码对称
+    char *s2 = * (char **) vp2;
+    return strcmp(s1,s2); //C原生函数：比较C-string
+}
+```
+
+
 
 
 
