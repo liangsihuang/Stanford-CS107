@@ -211,7 +211,7 @@ int StrCmp(void * vp1, void * vp2)
     return strcmp(s1,s2); 
 }
 ```
-
+学到大概33：00转向类的method? this?
 
 
 
