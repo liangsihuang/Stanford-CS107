@@ -361,6 +361,18 @@ void StringFree(void *elem)
     free(*(char **) elem);
 }
 ```
+实现一个rotate函数，类似swap
+```c
+void rotate(void *front, void *middle, void *end)
+{
+    int frontSize = (char *)middle - (char *)front;
+    int backSize = (char *)end - (char *)middle;
+    char buffer[frontSize];
+    memcpy(buffer, front, frontSize);
+    memmove(front, middle, backSize); //因为有可能overlap，所以不能用memcpy
+    memcpy((char *)end-frontSize, buffer, frontSize); //理论上memcpy都可以用memmove，但效率低
+}
+```
 看到37：24
 
 
