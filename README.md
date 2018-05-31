@@ -292,6 +292,7 @@ void StackNew(stack *s, int elemSize)
 
 void StackDispose(stack *s)
 {
+    //这里有东西省略了！
     free(s->elems);
 }
 
@@ -316,7 +317,51 @@ void StackPop(stack *s, void *elemAddr)
 }
 
 ## Lec7
+储存c-string的stack
+```c
+int main()
+{
+    const char *friends[]={"Al", "Bob", "Carl"};
+    stack stringStack;
+    StackNew(&stringStack, sizeof(char *));
+    for(int i=0; i<3; i++){
+        char *copy=strdup(friends[i]); //注意：strdup里面是malloc，会在heap里面分配内存
+        StackPush(&stringStack, &copy); //注意：必须有&，没有也会compile
+    }
+    char *name;
+    for (int i=0; i<3; i++){
+        StackPop(&stringStack, &name); //注意：必须有&，没有也会compile
+        printf("%s\n",name);
+        free(name); //name只指向的是动态的内存，必须free，否则成为orphan
+    }
+    StackDispose(&stringStack);
+}
+```
+假如stack里面还有c-string，没有被free。stack被StackDispose后这些c-string都成为orphan。所以需要改写
+```c
+void StackNew(stack *s, int elemSize, void (*freefn)(void *));
+typedef struct{
+    //加一项
+    void (*freefn)(void *)
+} stack;
+void StackDispose(stack *s)
+{
+    if(s->freefn!=NULL){        //不是储存c-string的stack不用定义freefn，参数传个NULL
+        for(int i=0; i<s->loglength;i++){
+            s->freefn((char *)s-elems+i*s->elemSize);
+        }
+    }
+    free(s->elems);
+}
 
+Stack stringStack;
+StackNew(&stringStack, sizeof(char *), StringFree);
+void StringFree(void *elem)
+{
+    free(*(char **) elem);
+}
+```
+看到37：24
 
 
 
