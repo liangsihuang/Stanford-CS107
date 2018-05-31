@@ -218,9 +218,10 @@ stack.h
 ```c
 typedef struct{
     int *elems;
-    int logicallen;
+    int loglength; //老师第一次写：int logicallen;
     int alloclength;
-} stack;
+} stack; //struct是C里面有的类型，但数据完全暴露（都是public）。假装是private，用函数操作
+
 void StackNew(stack *s);
 void StackDispose(stack *s);
 void StackPush(stack *s, int value);
@@ -236,6 +237,59 @@ void StackNew(stack *s)
     assert(s->elems!=Null); //C function: 没有找到内存就中止！
 }
 ```
+## Lec6
+continue to implement of stach in C
+```c
+void StackDispose(stack *s)
+{
+    free(s->elems);
+    // free(s); 错误：s只是个局部变量
+}
+
+void StackPush(stack *s, int vaule)
+{
+    if (s->loglength == s->alloclength{
+        s->alloclength *= 2;
+        s->elems = realloc(s->elems, s->alloclength*sizeof(int)); //C++ 没有对应的函数，以后再讲为什么。 C++要copy，然后到另外一个地方分配内存
+        assert(s->elems!=Null);
+    }
+    s->elems[s->loglength]=value;
+    s->loglength++;
+}
+
+int StackPop(stack *s)
+{
+    assert(s->loglength>0);
+    s->loglength--;
+    return s-elems[s->loglength];
+}
+```
+generic stack: stack.h
+```c
+typedef struct{
+    void *elems;
+    int elemSize;
+    int loglength;
+    int alloclength;
+} stack;
+
+void StackNew(stack *s, int elemSize);
+void StackDispose(stack *s);
+void StackPush(stack *s, void *elemAddr);
+void StackPop(stack *s, void *elemAddr);
+```
+stack.c
+```
+void StackNew(stack *s, int elemSize)
+{
+    assert(s->elemSize>0);
+    s->elemSize = elemSize;
+    s->loglength = 0;
+    s->alloclength=4;
+    s->elems=malloc(4*elemSize);
+    assert(s->elems!=NULL);
+}
+
 
 
 
