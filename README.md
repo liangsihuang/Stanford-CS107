@@ -290,6 +290,33 @@ void StackNew(stack *s, int elemSize)
     assert(s->elems!=NULL);
 }
 
+void StackDispose(stack *s)
+{
+    free(s->elems);
+}
+
+static void StackGrow(stack *s) //static 表示只能在本文件中使用此function，相当于C++的private
+{
+    s->alloclength*=2;
+    s->elems=realloc(s->elems, s->alloclength*s->elemSize);
+}
+void StackPush(stack *s, void *elemAddr)
+{
+    if(s->loglength==s->alloclength) StackGrow(s);
+    void *target = (char *)s->elems+s->loglength*s->elemSize;
+    memcpy(target, elemAddr, s->elemSize);
+    s->loglength++;
+}
+
+void StackPop(stack *s, void *elemAddr)
+{
+    void *source = (char *)s->elems+(s->loglength-1)*s->elemSize;
+    memcpy(elemAddr, source, s->elemSize);
+    s->loglength--;
+}
+
+## Lec7
+
 
 
 
