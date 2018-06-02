@@ -373,7 +373,12 @@ void rotate(void *front, void *middle, void *end)
     memcpy((char *)end-frontSize, buffer, frontSize); //理论上memcpy都可以用memmove，但效率低
 }
 ```
-看到37：24
+## Lec8 Heap Management
+How information about allocations are stored in the heap? 每一个blob前面有一个header记录blob的大小    
+还讲了 stack 为什么叫 stack? 就是因为函数的层层调用，后调用先返回。  
+ALU到register再到RAM??? 不懂
+## Lec9 
+ 
 
 
 
