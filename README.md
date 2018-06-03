@@ -376,9 +376,10 @@ void rotate(void *front, void *middle, void *end)
 ## Lec8 Heap Management
 How information about allocations are stored in the heap? 每一个blob前面有一个header记录blob的大小    
 还讲了 stack 为什么叫 stack? 就是因为函数的层层调用，后调用先返回。  
-ALU到register再到RAM??? 不懂
+ALU(Arithmetic Logic Unit)到register(寄存器？)再到RAM(Random Access Memory)??? 不懂
 ## Lec9 
- 
+ How a Code Snippet is Translated into Assembly Instructions (汇编指令)  
+ 到底怎么从code到汇编语言的？不懂。汇编有什么用？为什么不直接code到机器码？
 
 
 
