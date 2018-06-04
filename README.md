@@ -380,6 +380,19 @@ ALU(Arithmetic Logic Unit)到register(寄存器？)再到RAM(Random Access Memor
 ## Lec9 
  How a Code Snippet is Translated into Assembly Instructions (汇编指令)  
  到底怎么从code到汇编语言的？不懂。汇编有什么用？为什么不直接code到机器码？
+ ## Lec10
+ ## Lec15
+ thread
+ ## Lec18
+ 别人代课：继续冰淇淋问题
+ ## Lec19
+ new paradigm, new language  
+ functional paradigm, scheme
+ ## Lec24
+ Python
+ ## Lec27
+ Haskell
+ 
 
 
 
